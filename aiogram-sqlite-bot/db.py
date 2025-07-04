@@ -43,3 +43,25 @@ async def add_user(user_id: int, name: str):
     )
     conn.commit()
     conn.close() 
+async def add_note(user_id: int, content: str):
+   
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO notes (user_id, content) VALUES (?, ?)",
+        (user_id, content)
+    )
+    conn.commit()
+    conn.close()
+async def get_notes(user_id: int):
+   
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute(
+        "SELECT content FROM notes WHERE user_id = ?",
+        (user_id,)
+    )
+    rows = cur.fetchall()
+    conn.close()
+    return [row[0] for row in rows]
+    
