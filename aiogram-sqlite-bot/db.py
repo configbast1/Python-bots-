@@ -63,5 +63,16 @@ async def get_notes(user_id: int):
     )
     rows = cur.fetchall()
     conn.close()
-    return [row[0] for row in rows]
+    return [row[0] for row in rows] 
     
+async def save_poll_answer(user_id: int, poll_id: str, answer: str):
+ 
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO poll_answers (user_id, poll_id, answer) VALUES (?, ?, ?)",
+        (user_id, poll_id, answer)
+    )
+    conn.commit()
+    conn.close()
+
