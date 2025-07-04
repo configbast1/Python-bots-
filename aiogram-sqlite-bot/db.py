@@ -32,3 +32,14 @@ async def init_db():
 
     conn.commit()
     conn.close()
+
+async def add_user(user_id: int, name: str):
+    
+    conn = sqlite3.connect(DB_NAME)
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT OR IGNORE INTO users (user_id, name) VALUES (?, ?)",
+        (user_id, name)
+    )
+    conn.commit()
+    conn.close() 
